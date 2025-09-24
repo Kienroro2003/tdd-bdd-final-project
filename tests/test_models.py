@@ -242,12 +242,12 @@ class TestProductModel(unittest.TestCase):
         data = "this is not a dictionary"
         product = Product()
         self.assertRaises(DataValidationError, product.deserialize, data)
-        
+
     def test_deserialize_bad_available(self):
         """It should not deserialize a Product with bad available data"""
         test_product = ProductFactory()
         data = test_product.serialize()
-        data["available"] = "true" # Should be a boolean, not a string
+        data["available"] = "true"  # Should be a boolean, not a string
         product = Product()
         self.assertRaises(DataValidationError, product.deserialize, data)
 
@@ -255,7 +255,7 @@ class TestProductModel(unittest.TestCase):
         """It should not deserialize a Product with a bad category"""
         test_product = ProductFactory()
         data = test_product.serialize()
-        data["category"] = "INVALID_CATEGORY" # Invalid category
+        data["category"] = "INVALID_CATEGORY"  # Invalid category
         product = Product()
         self.assertRaises(DataValidationError, product.deserialize, data)
 
@@ -264,12 +264,12 @@ class TestProductModel(unittest.TestCase):
         product = ProductFactory()
         product.price = Decimal("15.99")
         product.create()
-        
+
         # Test with a simple string
         found_products = Product.find_by_price("15.99")
         self.assertEqual(found_products.count(), 1)
         self.assertEqual(found_products[0].price, Decimal("15.99"))
-        
+
         # Test with a string containing quotes that need to be stripped
         found_products_with_quotes = Product.find_by_price('"15.99"')
         self.assertEqual(found_products_with_quotes.count(), 1)
